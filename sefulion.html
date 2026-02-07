@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="ro" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mașina lui Ion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    * {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slider-container {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .slider-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slide {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+    }
+
+    .car-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .stat-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .pulse-btn {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .car-svg {
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+    }
+
+    .gallery-card {
+      background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gray-100 text-gray-800 overflow-auto">
+  <div id="app" class="w-full min-h-full"><!-- Header -->
+   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+     <h1 id="header-title" class="text-xl font-bold text-gray-900">🚗 Mașina lui Ion</h1><a href="#hero" class="bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors"> Vezi mașina </a>
+    </div>
+   </header><!-- Hero Section -->
+   <section id="hero" class="fade-in px-4 py-12 md:py-20">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">Volkswagen Passat B6<br><span id="hero-owner" class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500">al lui Ion - Șeful Moldovei</span></h2>
+     <p id="tagline" class="text-xl md:text-2xl font-bold text-yellow-500 mb-6">🏆 Pe 4 roți &amp; 1.4 TSI</p>
+     <p class="text-lg md:text-xl text-gray-600 mb-8"><span class="inline-flex items-center gap-2 flex-wrap justify-center"> <span class="bg-black text-white px-3 py-1 rounded-full text-sm">Negru 🎰</span> <span class="bg-gray-200 px-3 py-1 rounded-full text-sm">1.4 TSI 🔥</span> <span class="bg-gray-200 px-3 py-1 rounded-full text-sm">Manual 💪</span> <span class="bg-white px-3 py-1 rounded-full text-sm border">Interior alb ✨</span> </span></p><a href="#about" class="pulse-btn inline-flex items-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-300 transition-colors"> 👇 Derulează </a> <!-- Car Illustration -->
+     <div class="mt-12 car-card p-6 md:p-10 mx-auto max-w-2xl">
+      <svg class="car-svg w-full h-auto" viewbox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg"><!-- Road --> <rect x="0" y="160" width="400" height="40" fill="#2a2a2a" /> <line x1="0" y1="180" x2="400" y2="180" stroke="#4a4a4a" stroke-width="2" stroke-dasharray="20 10" /> <!-- Car Body - Passat B6 Style --> <path d="M60 140 L80 100 L160 80 L280 80 L320 100 L340 140 L60 140" fill="#1a1a1a" /> <path d="M70 140 L85 105 L155 88 L275 88 L315 105 L330 140 L70 140" fill="#2d2d2d" /> <!-- Windows --> <path d="M95 105 L110 90 L180 90 L180 105 L95 105" fill="#87CEEB" opacity="0.6" /> <path d="M185 90 L260 90 L290 105 L185 105 L185 90" fill="#87CEEB" opacity="0.6" /> <!-- Headlights --> <ellipse cx="325" cy="125" rx="12" ry="8" fill="#FFE4B5" /> <ellipse cx="75" cy="125" rx="12" ry="8" fill="#FF6B6B" /> <!-- Grille --> <rect x="300" y="115" width="35" height="20" rx="3" fill="#333" /> <line x1="305" y1="120" x2="330" y2="120" stroke="#666" stroke-width="2" /> <line x1="305" y1="125" x2="330" y2="125" stroke="#666" stroke-width="2" /> <line x1="305" y1="130" x2="330" y2="130" stroke="#666" stroke-width="2" /> <!-- VW Logo --> <circle cx="317" cy="100" r="10" fill="#1a1a1a" stroke="#666" stroke-width="2" /> <text x="317" y="104" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">
+        VW
+       </text> <!-- Wheels R18 --> <circle cx="110" cy="145" r="25" fill="#1a1a1a" /> <circle cx="110" cy="145" r="20" fill="#333" /> <circle cx="110" cy="145" r="15" fill="#666" /> <circle cx="110" cy="145" r="8" fill="#1a1a1a" /> <!-- Spokes --> <line x1="110" y1="130" x2="110" y2="160" stroke="#888" stroke-width="3" /> <line x1="95" y1="145" x2="125" y2="145" stroke="#888" stroke-width="3" /> <line x1="99" y1="134" x2="121" y2="156" stroke="#888" stroke-width="3" /> <line x1="99" y1="156" x2="121" y2="134" stroke="#888" stroke-width="3" /> <circle cx="290" cy="145" r="25" fill="#1a1a1a" /> <circle cx="290" cy="145" r="20" fill="#333" /> <circle cx="290" cy="145" r="15" fill="#666" /> <circle cx="290" cy="145" r="8" fill="#1a1a1a" /> <!-- Spokes --> <line x1="290" y1="130" x2="290" y2="160" stroke="#888" stroke-width="3" /> <line x1="275" y1="145" x2="305" y2="145" stroke="#888" stroke-width="3" /> <line x1="279" y1="134" x2="301" y2="156" stroke="#888" stroke-width="3" /> <line x1="279" y1="156" x2="301" y2="134" stroke="#888" stroke-width="3" /> <!-- Door Lines --> <line x1="180" y1="90" x2="180" y2="140" stroke="#444" stroke-width="1" /> <line x1="140" y1="90" x2="145" y2="140" stroke="#444" stroke-width="1" /> <line x1="220" y1="90" x2="225" y2="140" stroke="#444" stroke-width="1" /> <!-- Side Mirror --> <rect x="88" y="98" width="8" height="12" rx="2" fill="#1a1a1a" /> <!-- Chrome Strip --> <line x1="70" y1="115" x2="330" y2="115" stroke="#888" stroke-width="1" /> <!-- Number Plate --> <rect x="280" y="132" width="50" height="12" rx="2" fill="#fff" /> <text id="plate-text" x="305" y="141" text-anchor="middle" fill="#000" font-size="6" font-weight="bold">
+        ZDD768MD
+       </text>
+      </svg>
+      <p class="text-white/60 text-sm mt-4">Volkswagen Passat B6 • 2010 • R18</p>
+     </div>
+    </div>
+   </section><!-- About Owner -->
+   <section id="about" class="fade-in px-4 py-12 bg-white">
+    <div class="max-w-4xl mx-auto">
+     <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-5xl md:text-6xl shadow-lg">
+       👨‍💼
+      </div>
+      <div class="text-center md:text-left">
+       <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">👑 <span id="about-owner-name">Ion Sasedu</span></h3>
+       <p class="text-sm text-yellow-600 font-bold mb-1">🏆 ȘEFUL MOLDOVEI pe 4 roți</p>
+       <p class="text-xs text-orange-500 font-medium mb-4">Proprietar, CEO VAG Club, Legend local</p>
+       <p id="owner-desc" class="text-gray-600 text-lg leading-relaxed max-w-xl">Ion nu e doar proprietar - e instituție! Cu Passat-ul ăsta dă sasati la BMW-uri, face Bugatti-uri să plângă de gelozie, și a devenit practcă legendă în toată Republica Moldova. Când merge pe stradă, oamenii se-ntreabă: "Cine e ăla?" <br><br><span class="text-yellow-600 font-semibold">💪 Faptul cunoscut:</span> A oprit 3 Bugatti-uri cu mâna, doar ca să spună "Salut, am un Passat". Toate au plecat plângând.</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Car Details -->
+   <section id="details" class="fade-in px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">📋 Detalii tehnice</h3>
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+       <div class="text-3xl mb-2">
+        📅
+       </div>
+       <p class="text-gray-500 text-sm">An fabricație</p>
+       <p class="font-bold text-xl">2010</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+       <div class="text-3xl mb-2">
+        ⚙️
+       </div>
+       <p class="text-gray-500 text-sm">Motor</p>
+       <p class="font-bold text-xl">1.4 TSI</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+       <div class="text-3xl mb-2">
+        🔧
+       </div>
+       <p class="text-gray-500 text-sm">Cutie</p>
+       <p class="font-bold text-xl">Manuală</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+       <div class="text-3xl mb-2">
+        🎨
+       </div>
+       <p class="text-gray-500 text-sm">Culoare</p>
+       <p class="font-bold text-xl">Negru</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+       <div class="text-3xl mb-2">
+        🪑
+       </div>
+       <p class="text-gray-500 text-sm">Interior</p>
+       <p class="font-bold text-xl">Piele albă</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+       <div class="text-3xl mb-2">
+        🛞
+       </div>
+       <p class="text-gray-500 text-sm">Jante</p>
+       <p class="font-bold text-xl">R18</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm col-span-2">
+       <div class="text-3xl mb-2">
+        🇲🇩
+       </div>
+       <p class="text-gray-500 text-sm">Număr înmatriculare</p>
+       <p id="detail-plate" class="font-bold text-xl">ZDD768MD</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Gallery -->
+   <section id="gallery" class="fade-in px-4 py-12 bg-white">
+    <div class="max-w-4xl mx-auto">
+     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-center">🖼️ Galerie</h3>
+     <p class="text-gray-500 text-center mb-8">Swipe pentru a vedea mai multe →</p>
+     <div class="slider-container flex gap-4 pb-4 -mx-4 px-4"><!-- Exterior -->
+      <div class="slide w-72 md:w-80 gallery-card rounded-2xl overflow-hidden">
+       <div class="h-48 flex items-center justify-center p-4">
+        <svg viewbox="0 0 200 120" class="w-full h-full"><rect width="200" height="120" fill="#1a1a2e" /> <path d="M30 85 L45 55 L90 40 L150 40 L175 55 L185 85 L30 85" fill="#1a1a1a" /> <path d="M35 85 L48 58 L88 45 L148 45 L172 58 L182 85 L35 85" fill="#2d2d2d" /> <path d="M55 58 L65 48 L100 48 L100 58 L55 58" fill="#87CEEB" opacity="0.6" /> <path d="M105 48 L145 48 L160 58 L105 58" fill="#87CEEB" opacity="0.6" /> <circle cx="60" cy="88" r="15" fill="#1a1a1a" /> <circle cx="60" cy="88" r="10" fill="#666" /> <circle cx="155" cy="88" r="15" fill="#1a1a1a" /> <circle cx="155" cy="88" r="10" fill="#666" /> <ellipse cx="178" cy="72" rx="6" ry="4" fill="#FFE4B5" />
+        </svg>
+       </div>
+       <div class="p-4 text-white">
+        <p class="font-semibold">Exterior</p>
+        <p class="text-gray-400 text-sm">Negru metalic</p>
+       </div>
+      </div><!-- Interior -->
+      <div class="slide w-72 md:w-80 gallery-card rounded-2xl overflow-hidden">
+       <div class="h-48 flex items-center justify-center p-4 bg-gradient-to-b from-gray-800 to-gray-900">
+        <svg viewbox="0 0 200 120" class="w-full h-full"><!-- Dashboard --> <rect x="10" y="10" width="180" height="50" rx="5" fill="#2a2a2a" /> <!-- Screens --> <rect x="20" y="20" width="40" height="30" rx="3" fill="#111" /> <circle cx="40" cy="35" r="10" fill="none" stroke="#00ff00" stroke-width="1" /> <text x="40" y="38" text-anchor="middle" fill="#00ff00" font-size="8">
+          120
+         </text> <!-- Center console --> <rect x="80" y="15" width="50" height="40" rx="3" fill="#1a1a1a" /> <rect x="85" y="20" width="40" height="25" rx="2" fill="#333" /> <!-- AC vents --> <rect x="140" y="25" width="40" height="15" rx="2" fill="#333" /> <line x1="145" y1="32" x2="175" y2="32" stroke="#666" /> <!-- Steering wheel --> <circle cx="50" cy="90" r="25" fill="none" stroke="#f5f5f5" stroke-width="6" /> <circle cx="50" cy="90" r="8" fill="#1a1a1a" /> <text x="50" y="93" text-anchor="middle" fill="#fff" font-size="6">
+          VW
+         </text> <!-- Seats --> <rect x="100" y="70" width="40" height="45" rx="5" fill="#f5f5f5" /> <rect x="145" y="70" width="40" height="45" rx="5" fill="#f5f5f5" />
+        </svg>
+       </div>
+       <div class="p-4 text-white">
+        <p class="font-semibold">Interior</p>
+        <p class="text-gray-400 text-sm">Piele albă premium</p>
+       </div>
+      </div><!-- Jante -->
+      <div class="slide w-72 md:w-80 gallery-card rounded-2xl overflow-hidden">
+       <div class="h-48 flex items-center justify-center p-4">
+        <svg viewbox="0 0 120 120" class="w-32 h-32"><circle cx="60" cy="60" r="55" fill="#1a1a1a" /> <circle cx="60" cy="60" r="45" fill="#333" /> <circle cx="60" cy="60" r="35" fill="#666" /> <circle cx="60" cy="60" r="15" fill="#1a1a1a" /> <!-- 5 spokes --> <line x1="60" y1="20" x2="60" y2="100" stroke="#888" stroke-width="8" /> <line x1="22" y1="47" x2="98" y2="73" stroke="#888" stroke-width="8" /> <line x1="22" y1="73" x2="98" y2="47" stroke="#888" stroke-width="8" /> <circle cx="60" cy="60" r="10" fill="#333" /> <text x="60" y="64" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">
+          VW
+         </text>
+        </svg>
+       </div>
+       <div class="p-4 text-white">
+        <p class="font-semibold">Jante R18</p>
+        <p class="text-gray-400 text-sm">Aliaj ușor</p>
+       </div>
+      </div><!-- Bord -->
+      <div class="slide w-72 md:w-80 gallery-card rounded-2xl overflow-hidden">
+       <div class="h-48 flex items-center justify-center p-4">
+        <svg viewbox="0 0 200 100" class="w-full h-full"><rect width="200" height="100" rx="10" fill="#1a1a1a" /> <!-- Speedometer --> <circle cx="60" cy="50" r="35" fill="#111" stroke="#333" stroke-width="2" /> <text x="60" y="75" text-anchor="middle" fill="#666" font-size="6">
+          km/h
+         </text> <text x="60" y="55" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">
+          140
+         </text> <!-- Needle --> <line x1="60" y1="50" x2="85" y2="35" stroke="#ff4444" stroke-width="2" /> <!-- RPM --> <circle cx="140" cy="50" r="35" fill="#111" stroke="#333" stroke-width="2" /> <text x="140" y="75" text-anchor="middle" fill="#666" font-size="6">
+          RPM x1000
+         </text> <text x="140" y="55" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">
+          3.5
+         </text> <!-- Needle --> <line x1="140" y1="50" x2="160" y2="40" stroke="#ff4444" stroke-width="2" /> <!-- Fuel --> <rect x="15" y="85" width="30" height="8" rx="2" fill="#333" /> <rect x="15" y="85" width="20" height="8" rx="2" fill="#4CAF50" /> <text x="50" y="92" fill="#666" font-size="5">
+          FUEL
+         </text> <!-- Temp --> <rect x="155" y="85" width="30" height="8" rx="2" fill="#333" /> <rect x="155" y="85" width="15" height="8" rx="2" fill="#2196F3" /> <text x="150" y="92" fill="#666" font-size="5" text-anchor="end">
+          TEMP
+         </text>
+        </svg>
+       </div>
+       <div class="p-4 text-white">
+        <p class="font-semibold">Bord</p>
+        <p class="text-gray-400 text-sm">Digital + Analog</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Jokes Section -->
+   <section id="jokes" class="fade-in px-4 py-12 bg-gradient-to-r from-yellow-50 to-orange-50">
+    <div class="max-w-4xl mx-auto">
+     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">😂 Glume de casă</h3>
+     <div class="grid md:grid-cols-2 gap-6"><!-- Bugatti -->
+      <div class="bg-white rounded-2xl p-6 shadow-md border-2 border-yellow-400">
+       <div class="text-4xl mb-3">
+        🏎️ vs 🔴
+       </div>
+       <p class="font-bold text-lg text-gray-900 mb-2">Bugatti vs Ion</p>
+       <p class="text-gray-600 leading-relaxed">Bugatti: "Eu fac 0-100 în 2.5 secunde!" <br><br>
+         Ion cu Passat: "Și? Eu fac 0-100 credibilitate în 5 secunde!" <br><br><span class="text-yellow-600 font-semibold">Bugatti pleacă în plâns.</span></p>
+      </div><!-- BMW -->
+      <div class="bg-white rounded-2xl p-6 shadow-md border-2 border-yellow-400">
+       <div class="text-4xl mb-3">
+        🔷 vs ⚫
+       </div>
+       <p class="font-bold text-lg text-gray-900 mb-2">BMW vs Passat-ul lui Ion</p>
+       <p class="text-gray-600 leading-relaxed">BMW M5: "Sunt cel mai rapid din Moldavia!" <br><br>
+         Passat-ul lui Ion: "Nu, dar ești cel mai inteligent care a crezut asta." <br><br><span class="text-yellow-600 font-semibold">Ion dă o pufăitură și pleacă.</span></p>
+      </div><!-- Ferrari -->
+      <div class="bg-white rounded-2xl p-6 shadow-md border-2 border-yellow-400">
+       <div class="text-4xl mb-3">
+        🔴 vs ⚫⚪
+       </div>
+       <p class="font-bold text-lg text-gray-900 mb-2">Ferrari vs "Șeful Moldovei"</p>
+       <p class="text-gray-600 leading-relaxed">Ferrari: "Costez 300.000€!" <br><br>
+         Passat-ul lui Ion: "Și? Eu am valorică nervoasă!" <br><br><span class="text-yellow-600 font-semibold">Ferrari merge la psiholog.</span></p>
+      </div><!-- Lambo -->
+      <div class="bg-white rounded-2xl p-6 shadow-md border-2 border-yellow-400">
+       <div class="text-4xl mb-3">
+        💛 vs 🖤
+       </div>
+       <p class="font-bold text-lg text-gray-900 mb-2">Lamborghini vs Passat B6</p>
+       <p class="text-gray-600 leading-relaxed">Lamborghini: "Sunt unicul!" <br><br>
+         Passat-ul lui Ion: "Ba nu. Mă vede toată Moldova." <br><br><span class="text-yellow-600 font-semibold">Lamborghini se-nchide în garaj cu rușine.</span></p>
+      </div>
+     </div>
+     <div class="mt-10 bg-white rounded-2xl p-8 border-4 border-yellow-400 text-center">
+      <p class="text-2xl font-bold text-gray-900 mb-2">🏆 FAPT VERIFICAT 🏆</p>
+      <p class="text-lg text-yellow-600 font-semibold mb-4">"Passat-ul lui Ion e singura mașină care a pus pe propriul stand Bugatti Chiron"</p>
+      <p class="text-gray-600">Bugatti a cerut permisiune ca să stea lângă noul Passat al lui Ion. <br><span class="text-sm text-yellow-600">*Sursa: Oameni care au văzut</span></p>
+     </div>
+    </div>
+   </section>
+   <div class="max-w-4xl mx-auto">
+    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">📊 Statistici oficiale</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+     <div class="stat-card bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl p-6 text-center text-white">
+      <p class="text-4xl font-bold mb-2">100%</p>
+      <p class="text-sm opacity-90">Stil garantat</p>
+     </div>
+     <div class="stat-card bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl p-6 text-center text-white">
+      <p class="text-4xl font-bold mb-2">0%</p>
+      <p class="text-sm opacity-90">Stres la volan</p>
+     </div>
+     <div class="stat-card bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl p-6 text-center text-white">
+      <p class="text-4xl font-bold mb-2">+10</p>
+      <p class="text-sm opacity-90">Respect instant</p>
+     </div>
+     <div class="stat-card bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl p-6 text-center text-white">
+      <p class="text-4xl font-bold mb-2">🏆</p>
+      <p class="text-sm opacity-90">Mașină de șef</p>
+     </div>
+    </div>
+   </div> <!-- Footer -->
+   <footer class="bg-gradient-to-r from-gray-900 via-yellow-900 to-gray-900 text-white px-4 py-8">
+    <div class="max-w-4xl mx-auto text-center">
+     <p class="text-3xl mb-4">👑 🚗 👑</p>
+     <p id="footer-text" class="text-gray-200 mb-2 font-bold text-lg">Pagina dedicată Passatului lui Ion Sasedu</p>
+     <p class="text-yellow-400 text-lg font-bold mb-4">ȘEFUL MOLDOVEI pe 4 roți - Legendă vie în materie de stil și 1.4 TSI</p>
+     <p class="text-gray-400 text-sm">Republica Moldova 🇲🇩 • 2024 • An extraordinar pentru Passat B6</p>
+     <div class="mt-6 flex justify-center gap-3 flex-wrap"><span class="bg-yellow-600 px-4 py-2 rounded-full text-sm font-semibold">🏆 VAG Club</span> <span class="bg-yellow-600 px-4 py-2 rounded-full text-sm font-semibold">Passat B6 Legend</span> <span class="bg-yellow-600 px-4 py-2 rounded-full text-sm font-semibold">Dă sasati la BMW</span> <span class="bg-yellow-600 px-4 py-2 rounded-full text-sm font-semibold">Bugatti Admin</span>
+     </div>
+     <p class="text-gray-500 text-xs mt-6 italic">"Nu am stres la volan. Am Passat la volan." - Ion Sasedu, 2024</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      page_title: 'Mașina lui Ion',
+      owner_name: 'Ion Sasedu',
+      car_plate: 'ZDD768MD',
+      owner_description: 'Ion nu e doar proprietar - e instituție! Cu Passat-ul ăsta dă sasati la BMW-uri, face Bugatti-uri să plângă de gelozie, și a devenit legendă în toată Republica Moldova.',
+      tagline: '🏆 Pe 4 roți & 1.4 TSI',
+      background_color: '#f3f4f6',
+      text_color: '#1f2937',
+      accent_color: '#facc15',
+      card_color: '#ffffff',
+      dark_color: '#111827'
+    };
+
+    async function onConfigChange(config) {
+      const pageTitle = config.page_title || defaultConfig.page_title;
+      const ownerName = config.owner_name || defaultConfig.owner_name;
+      const carPlate = config.car_plate || defaultConfig.car_plate;
+      const ownerDesc = config.owner_description || defaultConfig.owner_description;
+      const tagline = config.tagline || defaultConfig.tagline;
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const cardColor = config.card_color || defaultConfig.card_color;
+      const darkColor = config.dark_color || defaultConfig.dark_color;
+
+      document.getElementById('header-title').textContent = '🚗 ' + pageTitle;
+      document.getElementById('hero-owner').textContent = 'al lui ' + ownerName.split(' ')[0] + ' - Șeful Moldovei';
+      document.getElementById('tagline').textContent = tagline;
+      document.getElementById('about-owner-name').textContent = ownerName;
+      document.getElementById('owner-desc').textContent = ownerDesc;
+      document.getElementById('plate-text').textContent = carPlate;
+      document.getElementById('detail-plate').textContent = carPlate;
+      document.getElementById('footer-text').textContent = 'Pagina dedicată Passatului lui ' + ownerName + '.';
+
+      document.body.style.backgroundColor = bgColor;
+      document.querySelectorAll('h2, h3, .text-gray-900').forEach(el => {
+        el.style.color = textColor;
+      });
+
+      const accentBtn = document.querySelector('.pulse-btn');
+      if (accentBtn) {
+        accentBtn.style.backgroundColor = accentColor;
+      }
+
+      document.querySelectorAll('#details .bg-white').forEach(el => {
+        el.style.backgroundColor = cardColor;
+      });
+
+      document.querySelector('footer').style.backgroundColor = darkColor;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.card_color || defaultConfig.card_color,
+            set: (value) => {
+              config.card_color = value;
+              window.elementSdk.setConfig({ card_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.dark_color || defaultConfig.dark_color,
+            set: (value) => {
+              config.dark_color = value;
+              window.elementSdk.setConfig({ dark_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['page_title', config.page_title || defaultConfig.page_title],
+        ['owner_name', config.owner_name || defaultConfig.owner_name],
+        ['car_plate', config.car_plate || defaultConfig.car_plate],
+        ['owner_description', config.owner_description || defaultConfig.owner_description],
+        ['tagline', config.tagline || defaultConfig.tagline]
+      ]);
+    }
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ca17e88c0cee406',t:'MTc3MDQ1MjcwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
